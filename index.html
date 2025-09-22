@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>World Clock</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+
+        .clock-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border: 1px solid #ddd;
+        }
+
+        .timezone-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            height: 400px;
+        }
+
+        .timezone-card {
+            border: 1px solid #ddd;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .timezone-name {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .time-display {
+            font-size: 36px;
+            color: #000;
+            font-family: monospace;
+        }
+
+        @media (max-width: 768px) {
+            .timezone-grid {
+                grid-template-columns: 1fr;
+                height: auto;
+            }
+            
+            .timezone-card {
+                padding: 25px;
+            }
+
+            .time-display {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="clock-container">
+        <div class="timezone-grid">
+            <div class="timezone-card">
+                <div class="timezone-name">PST</div>
+                <div class="time-display" id="pst-time">--:--:--</div>
+            </div>
+
+            <div class="timezone-card">
+                <div class="timezone-name">EST</div>
+                <div class="time-display" id="est-time">--:--:--</div>
+            </div>
+
+            <div class="timezone-card">
+                <div class="timezone-name">CST</div>
+                <div class="time-display" id="cst-time">--:--:--</div>
+            </div>
+
+            <div class="timezone-card">
+                <div class="timezone-name">IST</div>
+                <div class="time-display" id="ist-time">--:--:--</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function updateClocks() {
+            const now = new Date();
+            
+            const timezones = {
+                pst: 'America/Los_Angeles',
+                est: 'America/New_York', 
+                cst: 'America/Chicago',
+                ist: 'Asia/Kolkata'
+            };
+
+            Object.keys(timezones).forEach(tz => {
+                const timeOptions = {
+                    timeZone: timezones[tz],
+                    hour12: true,
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit'
+                };
+
+                const timeString = now.toLocaleTimeString('en-US', timeOptions);
+                document.getElementById(`${tz}-time`).textContent = timeString;
+            });
+        }
+
+        updateClocks();
+        setInterval(updateClocks, 1000);
+    </script>
+</body>
+</html>
